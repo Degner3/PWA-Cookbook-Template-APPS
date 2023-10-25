@@ -1,0 +1,17 @@
+// {
+// 	"name": "PWA CookBook",
+// 	"short_name": "CookBook",
+// 	"start_url": "./index.html",
+// 	"id": "./index.html",
+// 	"display": "standalone",
+// 	"background_color": "#ffffff",
+// 	"theme_color": "#ffffff",
+// 	"orientation": "portrait-primary",
+//     "icons": [
+//         {
+//             "src": "",
+//             "sizes": ,
+
+//         }
+//     ]
+//   }

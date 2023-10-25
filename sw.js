@@ -6,12 +6,11 @@ const dynamicCacheName = 'site-dynamic-v1.0'
 
 // Array med filer til statisk cache
 const assets = [
-    "/",
-    "/index.html",
-    "/css/styles.css"
+    "./",
+    "./index.html",
+    "./css/styles.css",
+    "./fallback.html"
 ]
-
-
 
 
 // Registrerer service worker
@@ -42,7 +41,7 @@ self.addEventListener("activate", event => {
 
     event.waitUntil(
         caches.keys().then(keys => {
-            const filteredkeys = keys.filter(key => key != staticCacheName)
+            const filteredkeys = keys.filter(key => key !== staticCacheName)
             filteredkeys.map(key => caches.delete(key))
 
             // console.log(filteredkeys);       
@@ -50,6 +49,20 @@ self.addEventListener("activate", event => {
     )
 })
 
+// Funktion til styring af antal filer i en given cache
+const limitCacheSize = (cacheName, numberOfAllowedFiles) => {
+	// Åbn den angivede cache
+	caches.open(cacheName).then(cache => {
+		// Hent array af cache keys 
+		cache.keys().then(keys => {
+			// Hvis mængden af filer overstiger det tilladte
+			if(keys.length > numberOfAllowedFiles) {
+				// Slet første index (ældste fil) og kør funktion igen indtil antal er nået
+				cache.delete(keys[0]).then(limitCacheSize(cacheName, numberOfAllowedFiles))
+			}
+		})
+	})
+}
 
 // Fetch event
 self.addEventListener('fetch', event => {
@@ -74,31 +87,19 @@ self.addEventListener('fetch', event => {
 					return fetchRes
 				})
 			})
-		})
+		}).catch(() => {
+            return caches.match('fallback.html')
+        })
 	)
 
     // Kalder limit cache funktion
-    limitCacheSize(dynamicCacheName, 5)
-    
+    limitCacheSize(dynamicCacheName, 10)
+    console.log("test", dynamicCacheName);
     
 })
 
 
 
-// Funktion til styring af antal filer i en given cache
-const limitCacheSize = (cacheName, numberOfAllowedFiles) => {
-	// Åbn den angivede cache
-	caches.open(cacheName).then(cache => {
-		// Hent array af cache keys 
-		cache.keys().then(keys => {
-			// Hvis mængden af filer overstiger det tilladte
-			if(keys.length > numberOfAllowedFiles) {
-				// Slet første index (ældste fil) og kør funktion igen indtil antal er nået
-				cache.delete(keys[0]).then(limitCacheSize(cacheName, numberOfAllowedFiles))
-			}
-		})
-	})
-}
 
 
 
@@ -163,6 +164,13 @@ const limitCacheSize = (cacheName, numberOfAllowedFiles) => {
 //     "/css/styles.css"
 // ]
 
+
+
+// if('serviceWorker' in navigator) {
+// 	navigator.serviceWorker.register('./sw.js')
+// 	.then(reg => console.log('service worker registered', reg))
+// 	.catch(err => console.error('service worker not registered', err)) 
+// }
 
 // // Install Event Service Worker
 // self.addEventListener('install', (event) => {
