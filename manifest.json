@@ -1,17 +1,18 @@
-// {
-// 	"name": "PWA CookBook",
-// 	"short_name": "CookBook",
-// 	"start_url": "./index.html",
-// 	"id": "./index.html",
-// 	"display": "standalone",
-// 	"background_color": "#ffffff",
-// 	"theme_color": "#ffffff",
-// 	"orientation": "portrait-primary",
-//     "icons": [
-//         {
-//             "src": "",
-//             "sizes": ,
-
-//         }
-//     ]
-//   }
+{
+	"name": "PWA CookBook",
+	"short_name": "CookBook",
+	"start_url": "./index.html",
+    "description": "din egen virtuelle kogebog til at gemme opskrifter!",
+	"id": "./index.html",
+	"display": "standalone",
+	"background_color": "#ffffff",
+	"theme_color": "#5EB1BF",
+	"orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "./img/ios/144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        }
+    ]
+  }
